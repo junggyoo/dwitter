@@ -15,7 +15,7 @@ let tweets = [
         createdAt: Date.now().toString(),
         name: 'Bob',
         username: 'bob',
-        url: 'https://cdn.expcloud.co/life/uploads/2020/04/27135731/Fee-gentry-hed-shot-1.jpg',
+        url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
     },
 ];
 
