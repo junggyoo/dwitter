@@ -9,7 +9,7 @@ const bcryptSaltRounds = 12;
 export async function signUp(req, res) {
     const { username, password, name, email, url } = req.body;
 
-    const found = await userRepository.findbyUserName(username);
+    const found = await userRepository.findByUserName(username);
     if (found) {
         return res.status(409).json({ messgae: `${username} already exists` });
     }
@@ -29,7 +29,7 @@ export async function signUp(req, res) {
 export async function login(req, res) {
     const { username, password } = req.body;
 
-    const user = await userRepository.findbyUserName(username);
+    const user = await userRepository.findByUserName(username);
     if (!user) {
         return res.status(401).json({ message: 'Invalid user or password' });
     }
@@ -41,6 +41,14 @@ export async function login(req, res) {
 
     const token = createJwtToken(user.id);
     res.status(200).json({ token, username });
+}
+
+export async function me(req, res) {
+    const user = await userRepository.findById(req.userId);
+    if (!user) {
+        return res.status(404).json({ messgae: 'User not found' });
+    }
+    res.status(200).json({ token: req.token, username: user.username });
 }
 
 function createJwtToken(id) {
