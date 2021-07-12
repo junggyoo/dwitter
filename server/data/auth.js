@@ -5,7 +5,6 @@ const password = bcrypt.hashSync('skscjswo', 12);
 let users = [
     {
         id: '1',
-        userId: '1',
         username: 'bob',
         password,
         name: 'Bob',
@@ -14,7 +13,6 @@ let users = [
     },
     {
         id: '2',
-        userId: '2',
         username: 'ellie',
         password,
         name: 'Ellie',

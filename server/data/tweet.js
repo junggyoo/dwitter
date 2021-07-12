@@ -28,13 +28,12 @@ export async function getAll() {
 
 export async function getAllByUsername(username) {
     return getAll().then((tweets) =>
-        tweets.find((tweet) => tweet.username === username)
+        tweets.filter((tweet) => tweet.username === username)
     );
 }
 
 export async function getById(id) {
     const found = tweets.find((tweet) => tweet.id === id);
-    console.log({ found });
     if (!found) {
         return null;
     }
