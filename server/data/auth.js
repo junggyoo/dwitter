@@ -1,23 +1,25 @@
-import MongoDB from 'mongodb';
-import { getUsers } from '../db/datebase.js';
-const ObjectID = MongoDB.ObjectId;
+import Mongoose from 'mongoose';
+import { useVirtualId } from '../db/datebase.js';
+
+const userScheme = new Mongoose.Schema({
+  username: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  url: String,
+});
+
+useVirtualId(userScheme);
+const User = Mongoose.model('User', userScheme);
 
 export async function findByUserName(username) {
-  return getUsers().find({ username }).next().then(mapOptionalUser);
+  return User.findOne({ username });
 }
 
 export async function findById(id) {
-  return getUsers()
-    .find({ _id: new ObjectID(id) })
-    .next(mapOptionalUser);
+  return User.findById(id);
 }
 
 export async function createUser(user) {
-  return getUsers()
-    .insertOne(user)
-    .then((result) => result.insertedId.toString());
-}
-
-function mapOptionalUser(user) {
-  return user ? { ...user, id: user._id.toString() } : user;
+  return new User(user).save().then((data) => data.id);
 }
