@@ -1,36 +1,25 @@
-import bcrypt from 'bcrypt';
+import Mongoose from 'mongoose';
+import { useVirtualId } from '../db/datebase.js';
 
-const password = bcrypt.hashSync('skscjswo', 12);
+const userScheme = new Mongoose.Schema({
+  username: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  url: String,
+});
 
-let users = [
-  {
-    id: '1',
-    username: 'bob',
-    password,
-    name: 'Bob',
-    email: 'bob@gmail.com',
-    url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
-  },
-  {
-    id: '2',
-    username: 'ellie',
-    password,
-    name: 'Ellie',
-    email: 'ellie@gmail.com',
-    url: 'https://cdn.expcloud.co/life/uploads/2020/04/27135731/Fee-gentry-hed-shot-1.jpg',
-  },
-];
+useVirtualId(userScheme);
+const User = Mongoose.model('User', userScheme);
 
 export async function findByUserName(username) {
-  return users.find((user) => user.username === username);
+  return User.findOne({ username });
 }
 
 export async function findById(id) {
-  return users.find((user) => user.id === id);
+  return User.findById(id);
 }
 
 export async function createUser(user) {
-  const create = { ...user, id: Date.now().toString() };
-  users.push(create);
-  return create.id;
+  return new User(user).save().then((data) => data.id);
 }
