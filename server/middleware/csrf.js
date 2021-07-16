@@ -5,7 +5,7 @@ export const csrfCheck = (req, res, next) => {
     if (
         req.method === 'GET' ||
         req.method === 'OPTIONS' ||
-        rerq.method === 'HEAD'
+        req.method === 'HEAD'
     ) {
         return next();
     }

@@ -9,13 +9,16 @@ import {
     AuthProvider,
     AuthErrorEventBus,
     fetchToken,
+    fetchCsrfToken,
 } from './context/AuthContext';
 import HttpClient from './network/http';
 import Socket from './network/socket.js';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const authErrorEventBus = new AuthErrorEventBus();
-const httpClient = new HttpClient(baseURL, authErrorEventBus);
+const httpClient = new HttpClient(baseURL, authErrorEventBus, () =>
+    fetchCsrfToken()
+);
 const authService = new AuthService(httpClient);
 const socketClient = new Socket(baseURL, () => fetchToken());
 const tweetService = new TweetService(httpClient, socketClient);
