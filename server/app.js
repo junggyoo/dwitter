@@ -13,9 +13,9 @@ import { sequelize } from './db/datebase.js';
 const app = express();
 
 const corsOption = {
-  origin: config.cors.allowedOrigin,
-  optionsSuccessStatus: 200,
-  credential: true, // allow the Access Control-Allow-Credentials
+    origin: config.cors.allowedOrigin,
+    optionsSuccessStatus: 200,
+    credentials: true, // allow the Access Control-Allow-Credentials
 };
 
 app.use(express.json());
@@ -28,16 +28,16 @@ app.use('/tweets', tweetsRouter);
 app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
-  res.sendStatus(404);
+    res.sendStatus(404);
 });
 
 app.use((error, req, res, next) => {
-  console.error(error);
-  res.sendStatus(500);
+    console.error(error);
+    res.sendStatus(500);
 });
 
 sequelize.sync().then(() => {
-  console.log(`Server is started... ${new Date()}`);
-  const server = app.listen(config.port);
-  initSocket(server);
+    console.log(`Server is started... ${new Date()}`);
+    const server = app.listen(config.port);
+    initSocket(server);
 });
